@@ -2,6 +2,7 @@
 
 A lightweight implementation of the Hammertoss command and control system.
 
-### TODO other info ###
+### Installation instructions ###
 
-* TODO
+* pip install tweepy
+
