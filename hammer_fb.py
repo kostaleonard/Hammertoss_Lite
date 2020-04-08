@@ -23,10 +23,9 @@ def main():
     page_data = get_page_data(graph)
     print(page_data['data'][0]['id'])
     page_id = page_data['data'][0]['id']
-    posts = graph.get_object(
-        id=page_id,
-        fields='posts')
+    posts = get_post_data(graph, page_id)
     print(posts)
+    print(get_any_post(graph, page_id))
 
 
 def get_page_data(graph):
@@ -34,6 +33,22 @@ def get_page_data(graph):
     later use."""
     return graph.get_object("/me/accounts")
 
+
+def get_post_data(graph, page_id):
+    """Returns the full post dictionary. Used for testing."""
+    return graph.get_object(
+        id=page_id,
+        fields='posts')
+
+
+def get_any_post(graph, page_id):
+    """Returns any post, or None if no such post exists. This is for
+    testing."""
+    post_dict = graph.get_object(
+        id=page_id,
+        fields='posts')['posts']
+    post_list = post_dict['data']
+    return None if not post_list else post_list[0]['message']
 
 
 if __name__ == '__main__':
