@@ -1,5 +1,7 @@
 #!/usr/bin/python3
 import facebook
+import time
+import datetime
 
 # TODO keys, tokens, etc.
 # TODO pretty sure I don't need any of these.
@@ -26,6 +28,8 @@ def main():
     posts = get_post_data(graph, page_id)
     print(posts)
     print(get_any_post(graph, page_id))
+    print(get_last_post_data(graph, page_id))
+    wait_for_posts(graph, page_id, lambda post: print(post), verbose=True)
 
 
 def get_page_data(graph):
@@ -49,6 +53,38 @@ def get_any_post(graph, page_id):
         fields='posts')['posts']
     post_list = post_dict['data']
     return None if not post_list else post_list[0]['message']
+
+
+def get_last_post_data(graph, page_id):
+    """Returns the most recent post's data dict. This is the post with
+    the greatest time value."""
+    post_dict = graph.get_object(
+        id=page_id,
+        fields='posts')['posts']
+    sorted_post_list = sorted(post_dict['data'], key=lambda d:
+            get_post_datetime(d))[::-1]
+    return sorted_post_list[0]
+
+
+def get_post_datetime(post_data):
+    """Returns a datetime object for the post's created time."""
+    return time.strptime(post_data['created_time'],
+            "%Y-%m-%dT%H:%M:%S+%f")
+
+
+def wait_for_posts(graph, page_id, new_post_func, verbose=False):
+    """Waits in a loop for new posts. When a new post arrives, apply the
+    given function to it."""
+    last_post_datetime = get_post_datetime(get_last_post_data(graph, page_id))
+    while True:
+        if verbose:
+            print('Checking for new post.')
+        new_post_data = get_last_post_data(graph, page_id)
+        new_post_datetime = get_post_datetime(new_post_data)
+        if new_post_datetime > last_post_datetime:
+            last_post_datetime = new_post_datetime
+            new_post_func(new_post_data['message'])
+        time.sleep(60)
 
 
 if __name__ == '__main__':
